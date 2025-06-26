@@ -54,7 +54,13 @@ public class LibroService {
 
 
         datos.resultadosLibro().forEach( datosLibro -> {
-
+            Optional<Libro> libroPorTitulo = repositorioLibro.findByTitulo(datosLibro.titulo());
+            if (libroPorTitulo.isPresent()) {
+                System.out.println("--------");
+                System.out.println(String.format("-------- El Libro con título [ %s ] ya existe.", libroPorTitulo.get().getTitulo()));
+                System.out.println("--------");
+                return; // evita continuar
+            }
             //Valida que el libro no se encuentre en la BD
             Optional<Libro> libroExistente = repositorioLibro.findByIdLibro(datosLibro.idLibro());
             if ( libroExistente.isPresent() ){
@@ -82,6 +88,13 @@ public class LibroService {
                 }
 
                 nuevoLibro.setAutores(autoresFinales);
+                List<Idioma> idiomasFinales = new ArrayList<>();
+                for (String codigoIdioma : datosLibro.idiomas()) {
+                    Idioma idioma = repositorioIdioma.findById(codigoIdioma)
+                            .orElseGet(() -> repositorioIdioma.save(new Idioma(codigoIdioma, null)));
+                    idiomasFinales.add(idioma);
+                }
+                nuevoLibro.setIdiomas(idiomasFinales);
                 //System.out.println(">>>>> El libro es: " + nuevoLibro);
                 repositorioLibro.save(nuevoLibro);
                 imprimeLibro(nuevoLibro);

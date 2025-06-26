@@ -2,6 +2,7 @@ package com.avilcom.Literalura.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,7 +54,7 @@ public class Libro {
     public Libro(DatosResultadosLibro libro) {
         this.idLibro = libro.idLibro();
         this.titulo = ( libro.titulo().length() > 500 ? libro.titulo().substring(0,499) : libro.titulo() );
-        this.idiomas = libro.idiomas().stream().map(elIdioma -> new Idioma(elIdioma, null)).collect(Collectors.toUnmodifiableList());
+        this.idiomas = new ArrayList<>();  // Se asignará en el LibroService
         this.descargas = libro.descargas();
         this.copyright = libro.copyright();
 

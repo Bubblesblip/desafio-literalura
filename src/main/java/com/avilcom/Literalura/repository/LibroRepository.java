@@ -12,6 +12,7 @@ import java.util.Optional;
 
 public interface LibroRepository extends JpaRepository<Libro,Long> {
     Optional<Libro> findByIdLibro(Long idLibro);
+    Optional<Libro> findByTitulo(String titulo);
 
     @Query("SELECT DISTINCT idioma  FROM Libro l JOIN l.idiomas idioma")
     List<String> findDistinctIdiomas();
