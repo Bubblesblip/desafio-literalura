@@ -60,7 +60,7 @@ public class Libro {
         this.autores = libro.autores().stream().map(autor ->  new Persona(autor)).collect(Collectors.toList());
     }
 
-    //getters y setters
+    //getters y setterss
 
     public Long getId() {
         return id;
